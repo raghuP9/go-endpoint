@@ -1,4 +1,5 @@
 # go-endpoint
+[![CircleCI](https://circleci.com/gh/rpsraghu/endpoint_benchmark/tree/master.svg?style=svg)](https://circleci.com/gh/rpsraghu/endpoint_benchmark/tree/master)
 
 Welcome to go-endpoint, a tool to monitor response time for a given endpoint
 
