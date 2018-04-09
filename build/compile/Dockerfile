@@ -1,5 +1,5 @@
 FROM golang:1.9
-MAINTAINER raghwendrasingh1819@gmail.com
+LABEL maintainer="raghwendrasingh1819@gmail.com"
 
 # Setup output directory for application binary
 VOLUME /output
