@@ -1,5 +1,5 @@
 # go-endpoint
-[![CircleCI](https://circleci.com/gh/rpsraghu/endpoint_benchmark/tree/master.svg?style=svg)](https://circleci.com/gh/rpsraghu/endpoint_benchmark/tree/master)
+[![CircleCI](https://circleci.com/gh/rpsraghu/go-endpoint/tree/master.svg?style=svg)](https://circleci.com/gh/rpsraghu/go-endpoint/tree/master)
 
 Welcome to go-endpoint, a tool to monitor response time for a given endpoint
 
@@ -34,8 +34,8 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/rpsrag
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+The Utility is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
 ## Code of Conduct
 
-Everyone interacting in the EndpointBenchmark project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/rpsraghu/endpoint_benchmark/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the go-endpoint project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/rpsraghu/endpoint_benchmark/blob/master/CODE_OF_CONDUCT.md).
