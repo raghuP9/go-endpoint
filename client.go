@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	tpt "github.com/rpsraghu/go-endpoint/transport"
 )
 
 var (
@@ -12,7 +11,7 @@ var (
 )
 
 type RealWebClient struct {
-	Transport *tpt.CustomTransport
+	Transport *CustomTransport
 }
 
 type WebClient interface {

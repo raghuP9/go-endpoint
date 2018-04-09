@@ -7,8 +7,6 @@ import (
 	"os"
 	"os/signal"
 	"time"
-
-	tpt "github.com/rpsraghu/go-endpoint/transport"
 )
 
 // Global vars
@@ -76,15 +74,15 @@ func main() {
 		os.Exit(1)
 	}()
 
+  log.Printf("Starting Application!")
+  log.Printf("Use Ctrl+C to stop...")
+
 	// infinite print loop
 	for {
-		log.Printf("Starting Application!")
-		log.Printf("Use Ctrl+C to stop...")
-
 		pass := make(chan string, 1)
 		fail := make(chan string, 1)
 
-    tp := tpt.NewTransport(*insecurePtr)
+    tp := NewTransport(*insecurePtr)
 		client := new(Client)
 		client.Http = RealWebClient{Transport: tp}
 
