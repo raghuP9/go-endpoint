@@ -2,13 +2,10 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"os"
 	"os/signal"
 	"time"
-
-	tpt "github.com/rpsraghu/go-endpoint/transport"
 )
 
 // Global vars
@@ -22,12 +19,6 @@ const (
 )
 
 func main() {
-	showPtr := flag.Bool("show", false, "Display the response content")
-	protocolPtr := flag.String("protocol", "", "Provide the protocol")
-	intervalPtr := flag.Int("interval", 300, "Provide interval over which to poll monitor in seconds")
-	hostPtr := flag.String("host", "", "Provide host's IP/FQDN")
-	versionPtr := flag.Bool("version", false, "shows version of this tool")
-	insecurePtr := flag.Bool("insecure", false, "Accept self-signed certificate")
 
 	if len(os.Args) < 1 {
 		flag.PrintDefaults()
@@ -37,28 +28,10 @@ func main() {
 	// Parse args
 	flag.Parse()
 
-	if flag.Parsed() {
-		// check for version flag
-		if *protocolPtr == "" || *hostPtr == "" {
-			if *versionPtr == true {
-				fmt.Printf("VERSION: %s", VERSION)
-			} else {
-				flag.PrintDefaults()
-			}
-			os.Exit(1)
-		}
-
-		// Validate interval
-		if *intervalPtr < 0 {
-			fmt.Printf("Negative interval value provided")
-			os.Exit(1)
-		}
-
-		// Validate protocol
-		if !(*protocolPtr == "http" || *protocolPtr == "https") {
-			fmt.Printf("Supported Protocols: %v", SupportedProtocols)
-			os.Exit(1)
-		}
+	cArgs := new(CLIArgs)
+	cArgs.ARGS = new(OSArgs)
+	if !Validate(*cArgs) {
+		os.Exit(1)
 	}
 
 	// setup signal catching
@@ -72,39 +45,43 @@ func main() {
 	go func() {
 		s := <-sigs
 		log.Printf("RECEIVED SIGNAL: %s", s)
-		AppCleanup()
+		//AppCleanup()
 		os.Exit(1)
 	}()
 
+	log.Printf("Starting Application!")
+	log.Printf("Use Ctrl+C to stop...")
+
 	// infinite print loop
 	for {
-		log.Printf("Starting Application!")
-		log.Printf("Use Ctrl+C to stop...")
-
 		pass := make(chan string, 1)
 		fail := make(chan string, 1)
 
-    tp := tpt.NewTransport(*insecurePtr)
+		tp := NewTransport(cArgs.ARGS.GetInsecureFlag())
 		client := new(Client)
-		client.Http = RealWebClient{Transport: tp}
+		client.HTTP = RealWebClient{Transport: tp}
 
-		go monitor(client, *protocolPtr, *hostPtr, *showPtr, pass, fail)
+		go monitor(client, cArgs.ARGS.GetProtocolFlag(),
+			cArgs.ARGS.GetHostFlag(), cArgs.ARGS.GetShowFlag(),
+			pass, fail)
 		select {
 		case msg := <-pass:
 			log.Printf("Successfully monitored %s://%s",
-				*protocolPtr, *hostPtr)
-      log.Printf(msg)
-      log.Println("Duration:", tp.Duration())
-      log.Println("Request duration:", tp.ReqDuration())
-      log.Println("Connection duration:", tp.ConnDuration())
+				cArgs.ARGS.GetProtocolFlag(), cArgs.ARGS.GetHostFlag())
+			log.Printf(msg)
+			log.Println("Duration:", tp.Duration())
+			log.Println("Request duration:", tp.ReqDuration())
+			log.Println("Connection duration:", tp.ConnDuration())
 
 		case msg := <-fail:
-			log.Printf("Failed to monitor %s://%s", *protocolPtr, *hostPtr)
-      log.Printf("Error message: %s", msg)
+			log.Printf("Failed to monitor %s://%s",
+				cArgs.ARGS.GetProtocolFlag(),
+				cArgs.ARGS.GetHostFlag())
+			log.Printf("Error message: %s", msg)
 		}
 
 		// wait random number of milliseconds
-		Nsecs := *intervalPtr
+		Nsecs := cArgs.ARGS.GetIntervalFlag()
 		log.Printf("About to sleep %ds before looping again", Nsecs)
 		time.Sleep(time.Second * time.Duration(Nsecs))
 	}
@@ -112,14 +89,14 @@ func main() {
 }
 
 // AppCleanup performs cleanup
-func AppCleanup() {
-	log.Println("CLEANUP APP BEFORE EXIT!!!")
-}
+// func AppCleanup() {
+//	log.Println("CLEANUP APP BEFORE EXIT!!!")
+//}
 
 func monitor(client *Client, protocol, host string, show bool,
-  pass, fail chan string) {
+	pass, fail chan string) {
 
-	body, err := client.Http.Get(protocol + "://" + host)
+	body, err := client.HTTP.Get(protocol + "://" + host)
 	if err != nil {
 		log.Printf("get error: %s: %s", err, host)
 		fail <- err.Error()

@@ -1,5 +1,5 @@
 FROM debian:stable
-MAINTAINER raghwendrasingh1819@gmail.com
+LABEL maintainer="raghwendrasingh1819@gmail.com"
 
 # Extract application tarball
 RUN mkdir -p /go/bin
