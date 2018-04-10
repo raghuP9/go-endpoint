@@ -35,7 +35,7 @@ type CLIArgs struct {
 }
 
 // GetInsecureFlag function
-func (a OSArgs) GetInsecureFlag() bool {
+func (a *OSArgs) GetInsecureFlag() bool {
 	if flag.Parsed() {
 		return *InsecurePtr
 	}
@@ -44,7 +44,7 @@ func (a OSArgs) GetInsecureFlag() bool {
 }
 
 // GetVersionFlag function
-func (a OSArgs) GetVersionFlag() bool {
+func (a *OSArgs) GetVersionFlag() bool {
 	if flag.Parsed() {
 		return *VersionPtr
 	}
@@ -53,7 +53,7 @@ func (a OSArgs) GetVersionFlag() bool {
 }
 
 // GetIntervalFlag function
-func (a OSArgs) GetIntervalFlag() int {
+func (a *OSArgs) GetIntervalFlag() int {
 	if flag.Parsed() {
 		return *IntervalPtr
 	}
@@ -62,7 +62,7 @@ func (a OSArgs) GetIntervalFlag() int {
 }
 
 // GetProtocolFlag function
-func (a OSArgs) GetProtocolFlag() string {
+func (a *OSArgs) GetProtocolFlag() string {
 	if flag.Parsed() {
 		return *ProtocolPtr
 	}
@@ -71,7 +71,7 @@ func (a OSArgs) GetProtocolFlag() string {
 }
 
 // GetHostFlag function
-func (a OSArgs) GetHostFlag() string {
+func (a *OSArgs) GetHostFlag() string {
 	if flag.Parsed() {
 		return *HostPtr
 	}
@@ -80,7 +80,7 @@ func (a OSArgs) GetHostFlag() string {
 }
 
 // GetShowFlag function
-func (a OSArgs) GetShowFlag() bool {
+func (a *OSArgs) GetShowFlag() bool {
 	if flag.Parsed() {
 		return *ShowPtr
 	}
@@ -89,7 +89,7 @@ func (a OSArgs) GetShowFlag() bool {
 }
 
 // Validate CLI args
-func Validate(c CLIArgs) bool {
+func Validate(c *CLIArgs) bool {
 	proto := c.ARGS.GetProtocolFlag()
 	host := c.ARGS.GetHostFlag()
 	version := c.ARGS.GetVersionFlag()
