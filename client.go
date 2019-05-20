@@ -22,7 +22,7 @@ type Client struct {
 }
 
 // Get method for interface
-func (r *RealWebClient) Get(url string) ([]byte, error) {
+func (r RealWebClient) Get(url string) ([]byte, error) {
 	var body []byte
 	client := &http.Client{Transport: r.Transport}
 

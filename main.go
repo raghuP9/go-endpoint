@@ -30,7 +30,7 @@ func main() {
 
 	cArgs := new(CLIArgs)
 	cArgs.ARGS = new(OSArgs)
-	if !Validate(cArgs) {
+	if !Validate(*cArgs) {
 		os.Exit(1)
 	}
 
@@ -59,7 +59,7 @@ func main() {
 
 		tp := NewTransport(cArgs.ARGS.GetInsecureFlag())
 		client := new(Client)
-		client.HTTP = &RealWebClient{Transport: tp}
+		client.HTTP = RealWebClient{Transport: tp}
 
 		go monitor(client, cArgs.ARGS.GetProtocolFlag(),
 			cArgs.ARGS.GetHostFlag(), cArgs.ARGS.GetShowFlag(),
