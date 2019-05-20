@@ -15,7 +15,7 @@ Above will generate a docker image named rpsraghu/go-endpoint:X.X.X
 
 ## Usage
 
-Start using the generated docker image in dev/prod environment
+Start using the generated docker image in dev/prod environment as required.
 
 ## Development
 
