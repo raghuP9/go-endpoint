@@ -1,0 +1,13 @@
+image: registry.pf9.io/gitpod/workspace-full@sha256:42181fe6917aedc92d61d9fbcfbfe28feb5c4d7b5db27cf6817e7a7c2b9df573
+ports:
+  - port: 8080
+checkoutLocation: "src/github.com/demo-apps/go-gin-app"
+workspaceLocation: "."
+tasks:
+  - init: >
+      cd /workspace/src/github.com/demo-apps/go-gin-app &&
+      go get -v ./... &&
+      go build -o app
+    command: >
+      cd /workspace/src/github.com/demo-apps/go-gin-app &&
+      ./app
